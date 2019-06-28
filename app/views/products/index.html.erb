@@ -5,8 +5,12 @@
 <p>Find me in app/views/products/index.html.erb</p>
 
 
-
-<% @products.each do |product| %>
+<div class="container">
+<div class="row">
+<% @product.each_slice(4) do |row| %>
+<% row.each do |product| %>
+<div class="col">
+<div class="w-100" style="margin-top:20px;">
 <div class="card" style="width: 18rem;">
   <img src="<%= product.image %>" class="card-img-top" alt="...">
   <div class="card-body">
@@ -15,10 +19,13 @@
     <p class="card-text"><%= product.price %></p>
   </div>
   <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+    <a href="#" class="card-link">Comprar</a>
+    <a href="#" class="card-link">Añadir al carro</a>
   </div>
 </div>
-
+</div>
+</div>
 <% end %>
-
+<% end %>
+  </div>
+  </div>

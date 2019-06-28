@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
