@@ -15,7 +15,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-gem 'cancancan'
+gem 'cancancan', git: 'https://github.com/CanCanCommunity/cancancan'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -27,7 +27,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
