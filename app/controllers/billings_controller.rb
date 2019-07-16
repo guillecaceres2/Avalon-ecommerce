@@ -1,2 +1,37 @@
 class BillingsController < ApplicationController
+
+        orders = current_user.orders.where(payed: false)
+        total = orders.pluck("price * quantity").sum()
+        items = orders.map do|order|    
+        item = {}    
+        item[:name] = order.product.name    
+        item[:sku] = order.id.to_s    
+        item[:price] = order.price.to_s    
+        item[:currency] ='USD'    
+        item[:quantity] = order.quantity    
+        item
+        end
+
+
+def pre_pay
+
+    payment=PayPal::SDK::REST::Payment.new({
+        intent: "sale",  
+        payer: {    payment_method: "paypal" },
+        redirect_urls: {    
+            return_url: "http://localhost:3000/billings/execute",    
+            cancel_url: "http://localhost:3000/" },
+        transactions: [{    item_list: {      items: items      },    
+                      amount: {      total: total.to_s,      currency: "USD" }
+,       description: "Compra desde E-commerce Rails." }]
+
+    })
+    if payment.create
+        #Redirige a PayPal
+    else
+    payment.error
+end
+
+end
+
 end
