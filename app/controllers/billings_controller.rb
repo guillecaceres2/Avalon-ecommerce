@@ -1,6 +1,8 @@
 class BillingsController < ApplicationController
 before_action :authenticate_user!
 
+
+
 def index
  @billings = current_user.billings.cart
  @total = @billings.get_total
@@ -12,6 +14,22 @@ def pre_pay
  total = orders.get_total
  items = orders.to_paypal_items
 end
+
+def self.get_total
+ where(nil).pluck("price * quantity").sum()
+end
+
+def self.to_paypal_items
+ where(nil).map do |order|
+ item = {}
+ item[:name] = order.product.name
+ item[:sku] = order.id.to_s
+ item[:price] = order.price.to_s
+ item[:currency] = 'USD'
+ item[:quantity] = order.quantity
+ item
+ end
+ end
 
  @payment = PayPal::SDK::REST::Payment.new({
         intent: "sale",  
