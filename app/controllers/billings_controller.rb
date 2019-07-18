@@ -1,5 +1,9 @@
 class BillingsController < ApplicationController
 
+
+
+
+def pre_pay
         orders = current_user.orders.where(payed: false)
         total = orders.pluck("price * quantity").sum()
         items = orders.map do|order|    
@@ -11,11 +15,11 @@ class BillingsController < ApplicationController
         item[:quantity] = order.quantity    
         item
         end
+   
 
+end
 
-def pre_pay
-
-    payment=PayPal::SDK::REST::Payment.new({
+ @payment = PayPal::SDK::REST::Payment.new({
         intent: "sale",  
         payer: {    payment_method: "paypal" },
         redirect_urls: {    
@@ -27,10 +31,14 @@ def pre_pay
 
     })
     if payment.create
-        #Redirige a PayPal
+        redirect_url = @payment.links.find{|v| v.method == "REDIRECT"
+}.href
+ redirect_to redirect_url
     else
     payment.error
 end
+
+def execute
 
 end
 

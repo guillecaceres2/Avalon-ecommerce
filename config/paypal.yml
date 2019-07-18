@@ -1,7 +1,7 @@
 test: &default
 
   # Credentials for REST APIs
-  mode: sandbox
+  
   client_id: <%= ENV["PAYPAL_CLIENT_ID"] %>
   client_secret: <%= ENV["PAYPAL_SECRET_ID"] %>
 
