@@ -1,22 +1,16 @@
 class BillingsController < ApplicationController
+before_action :authenticate_user!
 
-
+def index
+ @billings = current_user.billings.cart
+ @total = @billings.get_total
+end
 
 
 def pre_pay
-        orders = current_user.orders.where(payed: false)
-        total = orders.pluck("price * quantity").sum()
-        items = orders.map do|order|    
-        item = {}    
-        item[:name] = order.product.name    
-        item[:sku] = order.id.to_s    
-        item[:price] = order.price.to_s    
-        item[:currency] ='USD'    
-        item[:quantity] = order.quantity    
-        item
-        end
-   
-
+ orders = current_user.orders.cart
+ total = orders.get_total
+ items = orders.to_paypal_items
 end
 
  @payment = PayPal::SDK::REST::Payment.new({
@@ -39,6 +33,27 @@ end
 end
 
 def execute
+paypal_payment = PayPal::SDK::REST::Payment.find(params[:paymentId])
+
+ if paypal_payment.execute(payer_id: params[:PayerID])
+
+ amount = paypal_payment.transactions.first.amount.total
+
+ billing = Billing.create(
+ user: current_user,
+ code: paypal_payment.id,
+ payment_method: 'paypal',
+ amount: amount,
+ currency: 'USD'
+ )
+
+ orders = current_user.orders.where(payed: false)
+ orders.update_all(payed: true, billing_id: billing.id)
+
+ redirect_to root_path, notice: "La compra se realizó con éxito!"
+ else
+ render plain: "No se puedo generar el cobro en PayPal."
+ end
 
 end
 

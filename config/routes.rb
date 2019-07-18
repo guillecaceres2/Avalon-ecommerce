@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'orders/index'
-  resources :billings, only: [] do
+  resources :billings, only: [:index] do
      collection do        
       get 'pre_pay'
       get 'execute'
