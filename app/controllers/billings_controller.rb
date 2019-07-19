@@ -1,4 +1,4 @@
-https://gentle-thicket-38194.herokuapp.com/
+
 class BillingsController < ApplicationController
     before_action :authenticate_user!
     def index
