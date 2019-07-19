@@ -1,8 +1,8 @@
-<h1>Products#index</h1>
+<h1>Listado de Productos </h1>
 
 
 
-<p>Find me in app/views/products/index.html.erb</p>
+
 
 
 <div class="container">
@@ -20,7 +20,7 @@
   </div>
   <div class="card-body">
     <a href="#" class="card-link">Comprar</a>
-    <a href="#" class="card-link">Añadir al carro</a>
+    <%= link_to "Agregar al carro", product_orders_path(product), class: 'btn btn-success', method: :post  %>
   </div>
 </div>
 </div>
